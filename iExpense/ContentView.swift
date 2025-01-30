@@ -38,7 +38,7 @@ class Expenses{
 
 struct ContentView: View {
     @State private var expenses = Expenses()
-    @State private var showAddView = false
+//    @State private var showAddView = false
     var body: some View {
         NavigationStack{
             List {
@@ -86,11 +86,11 @@ struct ContentView: View {
             .navigationTitle("iExpense")
             
             .toolbar{
-                ToolbarItem(placement: .confirmationAction){
-                    NavigationLink("Add Expense"){
+                    NavigationLink{
                         addView(expense: expenses)
                     }
-                    
+            label: {
+                    Label("Add Expense", systemImage: "plus")
                 }
             }
                 
