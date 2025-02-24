@@ -9,15 +9,12 @@ import Foundation
 import SwiftData
 
 @Model
-class ExpenseItem : Identifiable{
-    var id = UUID()
+class ExpenseItem {
     var name : String
     var type: String
     var amount: Double
-    var expense: Expenses?
     
-    init(id: UUID = UUID(), name: String, type: String, amount: Double) {
-        self.id = id
+    init( name: String, type: String, amount: Double) {
         self.name = name
         self.type = type
         self.amount = amount

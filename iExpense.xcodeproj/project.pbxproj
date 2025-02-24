@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		830C99012D6D2B18009C7A0E /* ExpenseItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830C99002D6D2B18009C7A0E /* ExpenseItem.swift */; };
 		838F68492D281BE10055A2E1 /* iExpenseApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F68482D281BE10055A2E1 /* iExpenseApp.swift */; };
 		838F684B2D281BE10055A2E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838F684A2D281BE10055A2E1 /* ContentView.swift */; };
 		838F684D2D281BE30055A2E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 838F684C2D281BE30055A2E1 /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		830C99002D6D2B18009C7A0E /* ExpenseItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseItem.swift; sourceTree = "<group>"; };
 		838F68452D281BE10055A2E1 /* iExpense.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iExpense.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		838F68482D281BE10055A2E1 /* iExpenseApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iExpenseApp.swift; sourceTree = "<group>"; };
 		838F684A2D281BE10055A2E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 		838F68472D281BE10055A2E1 /* iExpense */ = {
 			isa = PBXGroup;
 			children = (
+				830C99002D6D2B18009C7A0E /* ExpenseItem.swift */,
 				838F68482D281BE10055A2E1 /* iExpenseApp.swift */,
 				838F684A2D281BE10055A2E1 /* ContentView.swift */,
 				838F68562D2AD80B0055A2E1 /* addView.swift */,
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				838F68572D2AD80B0055A2E1 /* addView.swift in Sources */,
+				830C99012D6D2B18009C7A0E /* ExpenseItem.swift in Sources */,
 				838F684B2D281BE10055A2E1 /* ContentView.swift in Sources */,
 				838F68492D281BE10055A2E1 /* iExpenseApp.swift in Sources */,
 			);
