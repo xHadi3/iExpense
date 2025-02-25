@@ -12,7 +12,7 @@ import SwiftData
 struct iExpenseApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView( )
         }
         .modelContainer(for: ExpenseItem.self)
     }

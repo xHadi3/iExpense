@@ -8,111 +8,95 @@
 import SwiftUI
 import SwiftData
 
-
 struct ContentView: View {
-    @Query private var expenses:[ExpenseItem]
     @Environment(\.modelContext) var modelContext
-    @State private var sortOrder = [
+    @Query private var allExpenses: [ExpenseItem]  // Get all expenses
+    
+    @State private var expenseType = "Personal"  // Selected filter type
+    @State private var sortOrder: [SortDescriptor<ExpenseItem>] = [
         SortDescriptor(\ExpenseItem.name),
         SortDescriptor(\ExpenseItem.amount, order: .reverse)
-    
     ]
 
+    // Filter & sort dynamically
+    var filteredExpenses: [ExpenseItem] {
+        allExpenses
+            .filter { expenseType == "All" || $0.type == expenseType }  // Show all if "All" is selected
+            .sorted(using: sortOrder)
+    }
+
+
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             List {
-                ForEach(expenses){ item in
-                   
-                            HStack{
-                                VStack(alignment: .leading){
-                                    Text(item.name).font(.headline)
-                                    Text(item.type).font(.subheadline)
-                                    
-                                }
-                                Spacer()
-                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD" ) )
-                                    .font(fontStyle(amount: item.amount))
-                            }
-                     
-                    } .onDelete(perform: removeItem)
-                    
-                    
-                    
-              
-//                Section("Business expenses"){
-//                    ForEach(expenses.items){ item in
-//                        if item.type == "Business"{
-//                            HStack{
-//                                VStack(alignment: .leading){
-//                                    Text(item.name).font(.headline)
-//                                    Text(item.type).font(.subheadline)
-//                                    
-//                                }
-//                                Spacer()
-//                                Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD" ) )
-//                                    .font(fontStyle(amount: item.amount))
-//                            }
-//                        }
-//                    } .onDelete(perform: removeItem)
-//                    
-//                    
-//                    
-//                }
-                
-              
+                ForEach(filteredExpenses) { item in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(item.name).font(.headline)
+                            Text(item.type).font(.subheadline)
+                        }
+                        Spacer()
+                        Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                            .font(fontStyle(amount: item.amount))
+                    }
+                }
+                .onDelete(perform: removeItem)
             }
             .navigationTitle("iExpense")
-            
-            .toolbar{
-                    NavigationLink{
-                        addView()
-                    }
-            label: {
+            .toolbar {
+                NavigationLink {
+                    addView()
+                } label: {
                     Label("Add Expense", systemImage: "plus")
                 }
-            }
                 
-            ///
-//                Button("Add Expense", systemImage: "plus"){
-//                    showAddView = true
-//                }
-//            .sheet(isPresented: $showAddView){
-//               
-//            }
-            ///
-            
+                // Filter Menu
+                Menu("Filter", systemImage: "line.3.horizontal.decrease.circle") {
+                    Picker("Filter", selection: $expenseType) {
+                        Text("Personal").tag("Personal")
+                        Text("Business").tag("Business")
+                        Text("All").tag("All") // Option to show all expenses
+                    }
+                }
+
+                // Sort Menu
+                Menu("Sort", systemImage: "arrow.up.arrow.down") {
+                    Button("Name (A-Z)") {
+                        sortOrder = [SortDescriptor(\ExpenseItem.name)]
+                    }
+                    Button("Name (Z-A)") {
+                        sortOrder = [SortDescriptor(\ExpenseItem.name, order: .reverse)]
+                    }
+                    Button("Amount (Cheapest First)") {
+                        sortOrder = [SortDescriptor(\ExpenseItem.amount)]
+                    }
+                    Button("Amount (Most Expensive First)") {
+                        sortOrder = [SortDescriptor(\ExpenseItem.amount, order: .reverse)]
+                    }
+                }
+            }
         }
     }
-    func removeItem(at offsets:IndexSet){
-        for offset in offsets{
-            let item = expenses[offset]
+
+    func removeItem(at offsets: IndexSet) {
+        for offset in offsets {
+            let item = filteredExpenses[offset]  // Remove from filtered list
             modelContext.delete(item)
         }
     }
-    
-    init(sortOrder: [SortDescriptor<ExpenseItem>]) {
-        _expenses = Query(sort: sortOrder)
-    }
-    
-    
-    func fontStyle(amount:Double) ->Font{
-        if amount < 10{
+
+    func fontStyle(amount: Double) -> Font {
+        if amount < 10 {
             return .headline
-        }
-        else if amount < 100{
+        } else if amount < 100 {
             return .subheadline
-        }
-        else if amount > 100{
+        } else {
             return .title
         }
-        else{
-            return .body
-        }
     }
-
 }
 
 #Preview {
-    ContentView(sortOrder: [SortDescriptor(\ExpenseItem.name)])
+    ContentView()
         .modelContainer(for: ExpenseItem.self)
 }
