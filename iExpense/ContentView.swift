@@ -12,7 +12,12 @@ import SwiftData
 struct ContentView: View {
     @Query private var expenses:[ExpenseItem]
     @Environment(\.modelContext) var modelContext
-//    @State private var showAddView = false
+    @State private var sortOrder = [
+        SortDescriptor(\ExpenseItem.name),
+        SortDescriptor(\ExpenseItem.amount, order: .reverse)
+    
+    ]
+
     var body: some View {
         NavigationStack{
             List {
@@ -85,6 +90,11 @@ struct ContentView: View {
         }
     }
     
+    init(sortOrder: [SortDescriptor<ExpenseItem>]) {
+        _expenses = Query(sort: sortOrder)
+    }
+    
+    
     func fontStyle(amount:Double) ->Font{
         if amount < 10{
             return .headline
@@ -103,6 +113,6 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(sortOrder: [SortDescriptor(\ExpenseItem.name)])
         .modelContainer(for: ExpenseItem.self)
 }
